@@ -6,3 +6,19 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct RouterView: View {
+	
+	@StateObject var router: AppRouter = AppRouter()
+	
+	var body: some View {
+		NavigationStack(path: $router.path) {
+			MainView()
+		}.navigationDestination(for: Route.self) { route in
+			router.view(for: route)
+		}.environmentObject(router)
+		
+	}
+	
+}
