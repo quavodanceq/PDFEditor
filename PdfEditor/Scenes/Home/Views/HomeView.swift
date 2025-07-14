@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct HomeView: View {
     
     // Placeholder data
     private let placeholderDocuments = [
@@ -93,5 +93,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    HomeView()
 }

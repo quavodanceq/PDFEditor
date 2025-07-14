@@ -2,32 +2,46 @@ import SwiftUI
 import Combine
 
 class AppRouter: ObservableObject {
+	
+	@Published var selectedTab: Tab = .home
     
-    @Published var path: NavigationPath = NavigationPath()
+    @Published var homePath: NavigationPath = NavigationPath()
+	
+	@Published var filesPath: NavigationPath = NavigationPath()
 	
 	@ViewBuilder
 	func view(for route: Route) -> some View {
 		switch route {
 			case .main:
-			MainView()
+			HomeView()
 		}
 		
     }
     
     func navigate(to route: Route) {
-		path.append(route)
+		switch selectedTab {
+		case .home:
+			homePath.append(route)
+		case .files:
+			filesPath.append(route)
+		}
     }
     
     func navigateBack() {
-		path.removeLast()
+		
     }
     
     func navigateToRoot() {
-		path.removeLast(path.count)
+		
     }
 } 
 
 enum Route: Hashable {
 	case main
+}
+
+enum Tab {
+	case home
+	case files
 }
 

@@ -11,10 +11,13 @@ import SwiftUI
 struct PdfEditorApp: App {
 	
     let persistenceController = PersistenceController.shared
+	
+	@StateObject private var router = AppRouter()
     
     var body: some Scene {
         WindowGroup {
-            RouterView()
+            MainTabView()
+				.environmentObject(router)
         }
     }
 }
