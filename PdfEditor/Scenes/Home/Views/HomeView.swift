@@ -70,6 +70,7 @@ struct HomeView: View {
 				.padding(.horizontal)
 			}
 			.padding(.top)
+			.padding(.bottom, 100) // Add extra padding at the bottom to account for tab bar
 		}
 		.navigationTitle("PDF Editor")
 		.toolbar {
