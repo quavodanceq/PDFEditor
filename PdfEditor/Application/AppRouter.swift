@@ -9,6 +9,8 @@ class AppRouter: ObservableObject {
 	
 	@Published var filesPath: NavigationPath = NavigationPath()
 	
+	@Published var fullScreenCover: FullScreenCover?
+	
 	@ViewBuilder
 	func view(for route: Route) -> some View {
 		switch route {
@@ -34,7 +36,30 @@ class AppRouter: ObservableObject {
     func navigateToRoot() {
 		
     }
-} 
+	
+	func presentFullScreen(screen: FullScreenCover) {
+		fullScreenCover = screen
+	}
+	
+	func dissmissFullScreen() {
+		fullScreenCover = nil
+	}
+
+	@ViewBuilder
+	func fullScreenView(for screen: FullScreenCover) -> some View {
+		switch screen {
+			case .documentCreation:
+				DocumentCreationView()
+		}
+	}
+}
+
+enum FullScreenCover: Identifiable {
+	
+	var id: Self { self }
+	
+	case documentCreation
+}
 
 enum Route: Hashable {
 	case main
