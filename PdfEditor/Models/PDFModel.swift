@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct PDFDocument: Identifiable {
+struct PDFModel: Identifiable {
     let id: UUID
     let name: String
     let dateModified: Date
