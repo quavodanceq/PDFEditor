@@ -18,10 +18,10 @@ struct FilesView: View {
     ]
     
     private let recentFiles = [
-        PDFDocument(id: UUID(), name: "Project_Proposal_Final.pdf", dateModified: Date(), size: 2.4),
-        PDFDocument(id: UUID(), name: "Financial_Report_Q2.pdf", dateModified: Date().addingTimeInterval(-4 * 24 * 3600), size: 5.7),
-        PDFDocument(id: UUID(), name: "User_Manual_v1.2.pdf", dateModified: Date().addingTimeInterval(-9 * 24 * 3600), size: 8.1),
-        PDFDocument(id: UUID(), name: "Contract_Agreement.pdf", dateModified: Date().addingTimeInterval(-14 * 24 * 3600), size: 1.2)
+        PDFModel(id: UUID(), name: "Project_Proposal_Final.pdf", dateModified: Date(), size: 2.4),
+        PDFModel(id: UUID(), name: "Financial_Report_Q2.pdf", dateModified: Date().addingTimeInterval(-4 * 24 * 3600), size: 5.7),
+        PDFModel(id: UUID(), name: "User_Manual_v1.2.pdf", dateModified: Date().addingTimeInterval(-9 * 24 * 3600), size: 8.1),
+        PDFModel(id: UUID(), name: "Contract_Agreement.pdf", dateModified: Date().addingTimeInterval(-14 * 24 * 3600), size: 1.2)
     ]
     
     var body: some View {

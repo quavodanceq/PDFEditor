@@ -11,10 +11,10 @@ struct HomeView: View {
     
     // Placeholder data
     private let placeholderDocuments = [
-		PDFDocument(id: UUID(), name: "Project Proposal", dateModified: Date(), size: 2.5),
-		PDFDocument(id: UUID(), name: "Meeting Notes", dateModified: Date().addingTimeInterval(-86400), size: 1.2),
-		PDFDocument(id: UUID(), name: "Contract Draft", dateModified: Date().addingTimeInterval(-172800), size: 3.8),
-		PDFDocument(id: UUID(), name: "User Manual", dateModified: Date().addingTimeInterval(-259200), size: 5.1)
+		PDFModel(id: UUID(), name: "Project Proposal", dateModified: Date(), size: 2.5),
+		PDFModel(id: UUID(), name: "Meeting Notes", dateModified: Date().addingTimeInterval(-86400), size: 1.2),
+		PDFModel(id: UUID(), name: "Contract Draft", dateModified: Date().addingTimeInterval(-172800), size: 3.8),
+		PDFModel(id: UUID(), name: "User Manual", dateModified: Date().addingTimeInterval(-259200), size: 5.1)
     ]
     
     public var body: some View {

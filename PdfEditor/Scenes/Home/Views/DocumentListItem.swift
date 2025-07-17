@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct DocumentListItem: View {
-	let document: PDFDocument
+	let document: PDFModel
 	
 	var body: some View {
 		HStack {
