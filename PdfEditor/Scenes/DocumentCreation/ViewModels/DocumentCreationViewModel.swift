@@ -11,10 +11,19 @@ import SwiftUI
 
 class DocumentCreationViewModel: ObservableObject {
 	
-	@EnvironmentObject private var router: AppRouter
+	private let router: AppRouter
+	
+	init(router: AppRouter) {
+		self.router = router
+	}
 	
 	func saveDocument(_ document: PDFDocument) {
-		
+		router.dissmissFullScreen()
+		router.navigate(to: .documentDetail(document: document))
+	}
+	
+	func cancelButtonTapped() {
+		router.dissmissFullScreen()
 	}
 	
 }

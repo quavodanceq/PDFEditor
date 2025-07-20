@@ -11,11 +11,11 @@ import PDFKit
 
 struct VNDocumentCameraViewControllerRepresentable: UIViewControllerRepresentable {
 	
-	@StateObject private var viewModel: DocumentCreationViewModel
+	@ObservedObject private var viewModel: DocumentCreationViewModel
 	
-	@EnvironmentObject var router: AppRouter
-	
-	private var PDFDoc: PDFDocument?
+	init(viewModel: DocumentCreationViewModel) {
+		self.viewModel = viewModel
+	}
 	
     func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
         let viewController = VNDocumentCameraViewController()
@@ -49,16 +49,16 @@ struct VNDocumentCameraViewControllerRepresentable: UIViewControllerRepresentabl
 					pdf.insert(pdfPage, at: pdf.pageCount)
 				}
 			}
-			parent.PDFDoc = pdf
+			parent.viewModel.saveDocument(pdf)
         }
         
         func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-            controller.dismiss(animated: true)
+			parent.viewModel.cancelButtonTapped()
         }
         
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
             print("Document camera view controller did fail with error: \(error.localizedDescription)")
-            controller.dismiss(animated: true)
+            
         }
     }
 }
