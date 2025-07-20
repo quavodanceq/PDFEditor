@@ -50,8 +50,7 @@ struct MainTabView: View {
 				router.presentFullScreen(screen: .documentCreation)
             }
             .offset(y: -15) // Changed from -5 to -15 to position it higher
-           
-        }
+		}
     }
 }
 
