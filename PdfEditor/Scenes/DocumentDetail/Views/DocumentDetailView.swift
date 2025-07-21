@@ -8,29 +8,32 @@
 import SwiftUI
 
 struct DocumentDetailView: View {
-	@StateObject private var viewModel: DocumentCreationViewModel
+	
+	@ObservedObject private var viewModel: DocumentDetailViewModel
     @State private var currentPage = 3
     @State private var totalPages = 12
     @Environment(\.colorScheme) private var colorScheme
     
-    var documentTitle: String
-    
     private var backgroundColor: Color {
         colorScheme == .dark ? .black : .white
     }
+	
+	init(viewModel: DocumentDetailViewModel) {
+		self.viewModel = viewModel
+	}
     
     var body: some View {
         VStack(spacing: 0) {
             // Navigation bar
             HStack {
                 Button(action: {
-                    
+					viewModel.backButtonTapped()
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.primary)
                 }
                 
-                Text(documentTitle)
+				Text(viewModel.document.previewTitle)
                     .font(.headline)
                     .lineLimit(1)
                 
@@ -46,66 +49,9 @@ struct DocumentDetailView: View {
             }
             .padding()
             .background(backgroundColor)
-            
-            // PDF content
-//            ScrollView {
-//                VStack(spacing: 16) {
-//                    // Page content preview
-//                    VStack(spacing: 8) {
-//                        RoundedRectangle(cornerRadius: 8)
-//                            .fill(Color.gray.opacity(0.1))
-//                            .frame(height: 200)
-//                            .overlay(
-//                                Text("Page content")
-//                                    .foregroundColor(.gray)
-//                            )
-//                        
-//                        // Placeholder text lines
-//                        ForEach(0..<5) { _ in
-//                            RoundedRectangle(cornerRadius: 4)
-//                                .fill(Color.gray.opacity(0.1))
-//                                .frame(height: 8)
-//                        }
-//                    }
-//                    .padding()
-//                    
-//                    // Chart data preview
-//                    VStack(spacing: 8) {
-//                        RoundedRectangle(cornerRadius: 8)
-//                            .fill(Color.gray.opacity(0.1))
-//                            .frame(height: 150)
-//                            .overlay(
-//                                Text("Chart data")
-//                                    .foregroundColor(.gray)
-//                            )
-//                        
-//                        // Placeholder chart data lines
-//                        ForEach(0..<4) { _ in
-//                            RoundedRectangle(cornerRadius: 4)
-//                                .fill(Color.gray.opacity(0.1))
-//                                .frame(height: 8)
-//                        }
-//                    }
-//                    .padding()
-//                    
-//                    // Page counter
-//                    HStack {
-//                        Spacer()
-//                        Text("\(currentPage) / \(totalPages)")
-//                            .font(.subheadline)
-//                            .foregroundColor(.white)
-//                            .padding(.horizontal, 12)
-//                            .padding(.vertical, 6)
-//                            .background(Color.black.opacity(0.6))
-//                            .cornerRadius(16)
-//                        Spacer()
-//                    }
-//                    .padding(.vertical)
-//                }
-//            }
 
-            
-            // Bottom toolbar
+			PDFKitRepresentedView(document: viewModel.document)
+			
             HStack(spacing: 32) {
                 ToolbarButton(icon: "hand.raised.fill", action: {})
                 ToolbarButton(icon: "pencil", action: {})
@@ -134,7 +80,3 @@ struct ToolbarButton: View {
     }
 }
 
-#Preview {
-    DocumentDetailView(documentTitle: "Annual Report 2025.pdf")
-        .environmentObject(AppRouter())
-}

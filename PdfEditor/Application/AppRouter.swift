@@ -18,7 +18,7 @@ class AppRouter: ObservableObject {
         case .main:
             HomeView()
         case .documentDetail(let document):
-			DocumentDetailView(viewModel: DocumentDetailViewModel(document: document))
+			DocumentDetailView(viewModel: DocumentDetailViewModel(document: document, router: self))
         }
     }
     
@@ -62,15 +62,22 @@ class AppRouter: ObservableObject {
         switch screen {
         case .documentCreation:
         VNDocumentCameraViewControllerRepresentable(viewModel: DocumentCreationViewModel(router: self))
-        }
+		case .documentDetail(document: let document):
+			DocumentDetailView(viewModel: DocumentDetailViewModel(document: document, router: self))
+		}
     }
 }
 
 enum FullScreenCover: Identifiable {
     
-    var id: Self { self }
-    
+	var id: String {
+		switch self {
+		case .documentCreation: return "documentCreation"
+		case .documentDetail: return "documentDetail"
+		}
+	}
     case documentCreation
+	case documentDetail(document: PDFDocument)
 }
 
 enum Route: Hashable {

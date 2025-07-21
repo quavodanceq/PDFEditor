@@ -18,8 +18,7 @@ class DocumentCreationViewModel: ObservableObject {
 	}
 	
 	func saveDocument(_ document: PDFDocument) {
-		router.dissmissFullScreen()
-		router.navigate(to: .documentDetail(document: document))
+		router.presentFullScreen(screen: .documentDetail(document: document))
 	}
 	
 	func cancelButtonTapped() {
