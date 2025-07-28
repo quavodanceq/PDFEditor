@@ -8,10 +8,11 @@
 import SwiftUI
 import VisionKit
 import PDFKit
+import Vision
 
 struct VNDocumentCameraViewControllerRepresentable: UIViewControllerRepresentable {
 	
-	@ObservedObject private var viewModel: DocumentCreationViewModel
+	@ObservedObject var viewModel: DocumentCreationViewModel
 	
 	init(viewModel: DocumentCreationViewModel) {
 		self.viewModel = viewModel
@@ -42,14 +43,17 @@ struct VNDocumentCameraViewControllerRepresentable: UIViewControllerRepresentabl
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
 			
 			let pdf = PDFDocument()
-			
+			let firstPageImage = scan.imageOfPage(at: 0)
 			for i in 0..<scan.pageCount {
 				let image = scan.imageOfPage(at: i)
 				if let pdfPage = PDFPage(image: image) {
 					pdf.insert(pdfPage, at: pdf.pageCount)
 				}
 			}
-			parent.viewModel.saveDocument(pdf)
+			Task {
+				await parent.viewModel.saveDocument(pdf,firstPageImage: firstPageImage)
+			}
+			
         }
         
         func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
@@ -58,7 +62,6 @@ struct VNDocumentCameraViewControllerRepresentable: UIViewControllerRepresentabl
         
         func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
             print("Document camera view controller did fail with error: \(error.localizedDescription)")
-            
         }
     }
 }
