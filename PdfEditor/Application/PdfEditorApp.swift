@@ -18,6 +18,7 @@ struct PdfEditorApp: App {
         WindowGroup {
             MainTabView()
 				.environmentObject(router)
-        }
+				.environment(\.managedObjectContext, persistenceController.container.viewContext)
+		}
     }
 }
