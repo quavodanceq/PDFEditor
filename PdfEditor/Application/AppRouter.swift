@@ -3,6 +3,8 @@ import Combine
 import PDFKit
 
 class AppRouter: ObservableObject {
+	
+	@Environment(\.managedObjectContext) private var context
     
     @Published var selectedTab: Tab = .home
     
@@ -61,7 +63,7 @@ class AppRouter: ObservableObject {
     func fullScreenView(for screen: FullScreenCover) -> some View {
         switch screen {
         case .documentCreation:
-        VNDocumentCameraViewControllerRepresentable(viewModel: DocumentCreationViewModel(router: self))
+			DocumentCreationView(viewModel: DocumentCreationViewModel(router: self))
 		case .documentDetail(document: let document):
 			DocumentDetailView(viewModel: DocumentDetailViewModel(document: document, router: self))
 		}
@@ -77,12 +79,12 @@ enum FullScreenCover: Identifiable {
 		}
 	}
     case documentCreation
-	case documentDetail(document: PDFDocument)
+	case documentDetail(document: PDFFile)
 }
 
 enum Route: Hashable {
     case main
-    case documentDetail(document: PDFDocument)
+    case documentDetail(document: PDFFile)
 }
 
 enum Tab {
