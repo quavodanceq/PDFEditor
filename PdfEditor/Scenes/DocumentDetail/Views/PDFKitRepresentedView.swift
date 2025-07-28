@@ -10,7 +10,7 @@ import PDFKit
 
 struct PDFKitRepresentedView: UIViewRepresentable {
 	
-	let document: PDFDocument
+	let document: PDFDocument?
 	
 	func updateUIView(_ uiView: PDFView, context: Context) {
 		

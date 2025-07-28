@@ -22,49 +22,49 @@ struct DocumentDetailView: View {
 		self.viewModel = viewModel
 	}
     
-    var body: some View {
-        VStack(spacing: 0) {
-            // Navigation bar
-            HStack {
-                Button(action: {
+	var body: some View {
+		VStack(spacing: 0) {
+			// Navigation bar
+			HStack {
+				Button(action: {
 					viewModel.backButtonTapped()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.primary)
-                }
-                
-				Text(viewModel.document.previewTitle)
-                    .font(.headline)
-                    .lineLimit(1)
-                
-                Spacer()
-                
-                Button(action: {
-                    // Show more options
-                }) {
-                    Image(systemName: "ellipsis")
-                        .foregroundColor(.primary)
-                        .rotationEffect(.degrees(90))
-                }
-            }
-            .padding()
-            .background(backgroundColor)
-
-			PDFKitRepresentedView(document: viewModel.document)
+				}) {
+					Image(systemName: "chevron.left")
+						.foregroundColor(.primary)
+				}
+				
+				Text(viewModel.document.name)
+					.font(.headline)
+					.lineLimit(1)
+				
+				Spacer()
+				
+				Button(action: {
+					// Show more options
+				}) {
+					Image(systemName: "ellipsis")
+						.foregroundColor(.primary)
+						.rotationEffect(.degrees(90))
+				}
+			}
+			.padding()
+			.background(backgroundColor)
 			
-            HStack(spacing: 32) {
-                ToolbarButton(icon: "hand.raised.fill", action: {})
-                ToolbarButton(icon: "pencil", action: {})
-                ToolbarButton(icon: "link", action: {})
-                ToolbarButton(icon: "textformat", action: {})
-                ToolbarButton(icon: "eye", action: {})
-                ToolbarButton(icon: "square.stack.3d.up", action: {})
-            }
-            .padding()
-            .background(backgroundColor)
-        }
-        .navigationBarHidden(true)
-    }
+			PDFKitRepresentedView(document: viewModel.pdfDocument)
+			
+			HStack(spacing: 32) {
+				ToolbarButton(icon: "hand.raised.fill", action: {})
+				ToolbarButton(icon: "pencil", action: {})
+				ToolbarButton(icon: "link", action: {})
+				ToolbarButton(icon: "textformat", action: {})
+				ToolbarButton(icon: "eye", action: {})
+				ToolbarButton(icon: "square.stack.3d.up", action: {})
+			}
+			.padding()
+			.background(backgroundColor)
+			.navigationBarHidden(true)
+		}
+	}
 }
 
 struct ToolbarButton: View {
