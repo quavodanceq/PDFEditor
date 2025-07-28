@@ -18,12 +18,12 @@ struct FilesView: View {
     ]
     
     private let recentFiles = [
-        PDFModel(id: UUID(), name: "Project_Proposal_Final.pdf", dateModified: Date(), size: 2.4),
-        PDFModel(id: UUID(), name: "Financial_Report_Q2.pdf", dateModified: Date().addingTimeInterval(-4 * 24 * 3600), size: 5.7),
-        PDFModel(id: UUID(), name: "User_Manual_v1.2.pdf", dateModified: Date().addingTimeInterval(-9 * 24 * 3600), size: 8.1),
-        PDFModel(id: UUID(), name: "Contract_Agreement.pdf", dateModified: Date().addingTimeInterval(-14 * 24 * 3600), size: 1.2)
+        PDFFile(id: UUID(), name: "Project Proposal Final", fileName: "Project_Proposal_Final.pdf", createdAt: Date()),
+        PDFFile(id: UUID(), name: "Financial Report Q2", fileName: "Financial_Report_Q2.pdf", createdAt: Date().addingTimeInterval(-4 * 24 * 3600)),
+        PDFFile(id: UUID(), name: "User Manual v1.2", fileName: "User_Manual_v1.2.pdf", createdAt: Date().addingTimeInterval(-9 * 24 * 3600)),
+        PDFFile(id: UUID(), name: "Contract Agreement", fileName: "Contract_Agreement.pdf", createdAt: Date().addingTimeInterval(-14 * 24 * 3600))
     ]
-    
+
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
@@ -84,7 +84,7 @@ struct FilesView: View {
                                         Text(file.name)
                                             .font(.subheadline)
                                         
-                                        Text("\(String(format: "%.1f", file.size)) MB • Modified \(file.dateModified.formatted(.dateTime.month().day().year()))")
+                                        Text("\(String(format: "%.1f", file.fileSize)) MB • Modified \(file.createdAt.formatted(.dateTime.month().day().year()))")
                                             .font(.caption)
                                             .foregroundColor(.gray)
                                     }
