@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct DocumentListItem: View {
-	let document: PDFModel
+	let document: PDFFile
 	
 	var body: some View {
 		HStack {
@@ -21,7 +21,7 @@ struct DocumentListItem: View {
 				Text(document.name)
 					.font(.body)
 				
-				Text("\(String(format: "%.1f", document.size)) MB • \(document.dateModified.formatted(.dateTime.month().day().year()))")
+				Text("\(String(format: "%.1f", document.fileSize)) MB • \(document.createdAt.formatted(.dateTime.month().day().year()))")
 					.font(.caption)
 					.foregroundColor(.gray)
 			}

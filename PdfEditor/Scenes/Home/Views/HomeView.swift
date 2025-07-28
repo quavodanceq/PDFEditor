@@ -6,16 +6,18 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct HomeView: View {
     
-    // Placeholder data
-    private let placeholderDocuments = [
-		PDFModel(id: UUID(), name: "Project Proposal", dateModified: Date(), size: 2.5),
-		PDFModel(id: UUID(), name: "Meeting Notes", dateModified: Date().addingTimeInterval(-86400), size: 1.2),
-		PDFModel(id: UUID(), name: "Contract Draft", dateModified: Date().addingTimeInterval(-172800), size: 3.8),
-		PDFModel(id: UUID(), name: "User Manual", dateModified: Date().addingTimeInterval(-259200), size: 5.1)
-    ]
+    @Environment(\.managedObjectContext) private var context
+    @EnvironmentObject private var router: AppRouter
+    @StateObject private var viewModel: HomeViewModel
+    
+    init() {
+        
+        self._viewModel = StateObject(wrappedValue: HomeViewModel(context: PersistenceController.shared.container.viewContext))
+    }
     
     public var body: some View {
 		ScrollView {
@@ -28,18 +30,29 @@ struct HomeView: View {
 							.fontWeight(.bold)
 						Spacer()
 						Button("See All") {
-							// Action
+
 						}
 						.foregroundColor(.blue)
 					}
 					
-					ScrollView(.horizontal, showsIndicators: false) {
-						HStack(spacing: 15) {
-							ForEach(placeholderDocuments) { document in
-								RecentFileCard(document: document)
+					if viewModel.state.isLoading {
+						ProgressView()
+							.frame(maxWidth: .infinity, alignment: .center)
+							.padding()
+					} else if viewModel.state.recentDocuments.isEmpty {
+						Text("No recent files")
+							.foregroundColor(.gray)
+							.frame(maxWidth: .infinity, alignment: .center)
+							.padding()
+					} else {
+						ScrollView(.horizontal, showsIndicators: false) {
+							HStack(spacing: 15) {
+								ForEach(viewModel.state.recentDocuments) { document in
+									RecentFileCard(document: document)
+								}
 							}
+							.padding(.horizontal)
 						}
-						.padding(.horizontal)
 					}
 				}
 				.padding(.horizontal)
@@ -62,21 +75,58 @@ struct HomeView: View {
 						}
 					}
 					
-					ForEach(placeholderDocuments) { document in
-						DocumentListItem(document: document)
-						Divider()
+					if viewModel.state.isLoading {
+						ProgressView()
+							.frame(maxWidth: .infinity, alignment: .center)
+							.padding()
+					} else if viewModel.state.documents.isEmpty {
+						VStack(spacing: 12) {
+							Image(systemName: "doc.text")
+								.font(.system(size: 50))
+								.foregroundColor(.gray)
+							Text("No documents yet")
+								.font(.headline)
+								.foregroundColor(.gray)
+							Text("Create your first PDF document")
+								.font(.subheadline)
+								.foregroundColor(.gray)
+						}
+						.frame(maxWidth: .infinity, alignment: .center)
+						.padding()
+					} else {
+						ForEach(viewModel.state.documents) { document in
+							DocumentListItem(document: document)
+								.onTapGesture {
+									router.navigate(to: .documentDetail(document: document))
+								}
+								.swipeActions(edge: .trailing) {
+									Button("Delete", role: .destructive) {
+										viewModel.deleteDocument(document)
+									}
+								}
+							if document.id != viewModel.state.documents.last?.id {
+								Divider()
+							}
+						}
 					}
 				}
 				.padding(.horizontal)
 			}
 			.padding(.top)
-			.padding(.bottom, 100) // Add extra padding at the bottom to account for tab bar
+			.padding(.bottom, 100)
 		}
 		.navigationTitle("PDF Editor")
+		.onAppear {
+			viewModel.updateContext(context)
+			viewModel.loadDocuments()
+		}
+		.refreshable {
+			viewModel.loadDocuments()
+		}
 		.toolbar {
 			ToolbarItem(placement: .automatic) {
 				Button {
-					// Search action
+					
 				} label: {
 					Image(systemName: "magnifyingglass")
 				}
@@ -84,15 +134,23 @@ struct HomeView: View {
 			
 			ToolbarItem(placement: .automatic) {
 				Button {
-					// More options
+					
 				} label: {
 					Image(systemName: "ellipsis")
 				}
 			}
+		}
+		.alert("Ошибка удаления", isPresented: $viewModel.state.showDeleteError) {
+			Button("OK") {
+				viewModel.dismissDeleteError()
+			}
+		} message: {
+			Text(viewModel.state.deleteError ?? "")
 		}
 	}
 }
 
 #Preview {
     HomeView()
+		.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

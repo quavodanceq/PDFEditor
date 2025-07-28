@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct RecentFileCard: View {
-	let document: PDFModel
+	let document: PDFFile
 	
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -26,7 +26,7 @@ struct RecentFileCard: View {
 				.font(.subheadline)
 				.lineLimit(1)
 			
-			Text("Modified: \(document.dateModified.formatted(.dateTime.month().day().year()))")
+			Text("Modified: \(document.createdAt.formatted(.dateTime.month().day().year()))")
 				.font(.caption)
 				.foregroundColor(.gray)
 		}
