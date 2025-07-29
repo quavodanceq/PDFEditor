@@ -18,10 +18,10 @@ struct FilesView: View {
     ]
     
     private let recentFiles = [
-        PDFFile(id: UUID(), name: "Project Proposal Final", fileName: "Project_Proposal_Final.pdf", createdAt: Date()),
-        PDFFile(id: UUID(), name: "Financial Report Q2", fileName: "Financial_Report_Q2.pdf", createdAt: Date().addingTimeInterval(-4 * 24 * 3600)),
-        PDFFile(id: UUID(), name: "User Manual v1.2", fileName: "User_Manual_v1.2.pdf", createdAt: Date().addingTimeInterval(-9 * 24 * 3600)),
-        PDFFile(id: UUID(), name: "Contract Agreement", fileName: "Contract_Agreement.pdf", createdAt: Date().addingTimeInterval(-14 * 24 * 3600))
+        PDFFile(id: UUID(), name: "Project Proposal Final", fileName: "Project_Proposal_Final.pdf", createdAt: Date(), thumbnailFileName: "Project_Proposal_Final_thumbnail.jpg"),
+        PDFFile(id: UUID(), name: "Financial Report Q2", fileName: "Financial_Report_Q2.pdf", createdAt: Date().addingTimeInterval(-4 * 24 * 3600), thumbnailFileName: "Financial_Report_Q2_thumbnail.jpg"),
+        PDFFile(id: UUID(), name: "User Manual v1.2", fileName: "User_Manual_v1.2.pdf", createdAt: Date().addingTimeInterval(-9 * 24 * 3600), thumbnailFileName: "User_Manual_v1.2_thumbnail.jpg"),
+        PDFFile(id: UUID(), name: "Contract Agreement", fileName: "Contract_Agreement.pdf", createdAt: Date().addingTimeInterval(-14 * 24 * 3600), thumbnailFileName: "Contract_Agreement_thumbnail.jpg")
     ]
 
     var body: some View {
