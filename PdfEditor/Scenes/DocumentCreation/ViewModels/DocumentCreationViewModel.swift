@@ -35,7 +35,7 @@ class DocumentCreationViewModel: ObservableObject {
 		
 		let title = await firstPageImage.recognizeTitle()
 		
-		if let pdfFile = repository.save(document: document, title: title) {
+		if let pdfFile = repository.save(document: document, title: title, thumbnailImage: firstPageImage) {
 			isRecognizingText = false
 			router.presentFullScreen(screen: .documentDetail(document: pdfFile))
 		} else {

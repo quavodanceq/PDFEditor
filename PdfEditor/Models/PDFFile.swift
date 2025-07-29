@@ -11,11 +11,19 @@ struct PDFFile: Identifiable, Hashable {
 	let name: String
 	let fileName: String
 	let createdAt: Date
+	let thumbnailFileName: String
 	var fileURL: URL? {
 		FileManager.default
 			.urls(for: .documentDirectory, in: .userDomainMask)
 			.first?
 			.appendingPathComponent(fileName)
+	}
+	
+	var thumbnailURL: URL? {
+		return FileManager.default
+			.urls(for: .documentDirectory, in: .userDomainMask)
+			.first?
+			.appendingPathComponent(thumbnailFileName)
 	}
 	
 	var fileSize: Double {
@@ -35,9 +43,11 @@ extension PDFFile {
 		guard let id = entity.id,
 			  let name = entity.name,
 			  let fileName = entity.fileName,
-			  let createdAt = entity.createdAt else {
+			  let createdAt = entity.createdAt,
+			  let thumbnailFileName = entity.thumbnailFileName
+		else {
 			return nil
 		}
-		self.init(id: id, name: name, fileName: fileName, createdAt: createdAt)
+		self.init(id: id, name: name, fileName: fileName, createdAt: createdAt, thumbnailFileName: thumbnailFileName)
 	}
 }

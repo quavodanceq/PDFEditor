@@ -20,6 +20,7 @@ extension PDFFileEntity {
     @NSManaged public var id: UUID?
     @NSManaged public var fileName: String?
     @NSManaged public var createdAt: Date?
+	@NSManaged public var thumbnailFileName: String?
 
 }
 
@@ -33,5 +34,6 @@ extension PDFFileEntity {
 		self.name = file.name
 		self.fileName = file.fileName
 		self.createdAt = file.createdAt
+		self.thumbnailFileName = file.thumbnailFileName
 	}
 }

@@ -18,9 +18,9 @@ final class PDFRepository {
 		self.context = context
 	}
 	
-	func save(document: PDFDocument, title: String) -> PDFFile? {
+	func save(document: PDFDocument, title: String, thumbnailImage: UIImage) -> PDFFile? {
 		
-		guard let pdfFile = pdfService.savePDFDocument(document, title: title) else {
+		guard let pdfFile = pdfService.savePDFDocument(document, title: title, thumbnailImage: thumbnailImage) else {
 			return nil
 		}
 		
@@ -29,6 +29,7 @@ final class PDFRepository {
 		entity.name = pdfFile.name
 		entity.fileName = pdfFile.fileName
 		entity.createdAt = pdfFile.createdAt
+		entity.thumbnailFileName = pdfFile.thumbnailFileName
 		
 		do {
 			try context.save()
