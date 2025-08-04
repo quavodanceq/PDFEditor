@@ -12,12 +12,15 @@ struct PdfEditorApp: App {
 	
     let persistenceController = PersistenceController.shared
 	
+	@StateObject private var thumbnailCache = ThumbnailCacheService()
+	
 	@StateObject private var router = AppRouter()
     
     var body: some Scene {
         WindowGroup {
             MainTabView()
 				.environmentObject(router)
+				.environmentObject(thumbnailCache)
 				.environment(\.managedObjectContext, persistenceController.container.viewContext)
 		}
     }

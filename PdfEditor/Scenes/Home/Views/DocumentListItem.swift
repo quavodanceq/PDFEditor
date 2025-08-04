@@ -5,27 +5,25 @@
 //  Created by Куат Оралбеков on 12.07.2025.
 //
 import SwiftUI
-import UIKit
 
 struct DocumentListItem: View {
 	let document: PDFFile
-	@State private var thumbnailImage: UIImage?
+	
+	@EnvironmentObject var thumbnailCache: ThumbnailCacheService
 	
 	var body: some View {
 		HStack {
 			Group {
-				if let thumbnailImage = thumbnailImage {
-					Image(uiImage: thumbnailImage)
+				if let thumbnail = thumbnailCache.thumbnail(for: document) {
+					Image(uiImage: thumbnail)
 						.resizable()
 						.scaledToFit()
-						.frame(width: 30)
+						.frame(width: 30, height: 30)
 						.cornerRadius(4)
 				} else {
-					Image(systemName: "doc.text.fill")
-						.resizable()
-						.scaledToFit()
-						.frame(width: 30)
-						.foregroundColor(.gray)
+					ProgressView()
+						.frame(width: 30, height: 30)
+						.scaleEffect(0.7)
 				}
 			}
 			
@@ -48,13 +46,5 @@ struct DocumentListItem: View {
 			}
 		}
 		.padding(.vertical, 8)
-		.onAppear {
-			loadThumbnail()
-		}
-	}
-	
-	private func loadThumbnail() {
-		let pdfService = PDFService()
-		thumbnailImage = pdfService.loadThumbnail(for: document)
 	}
 }

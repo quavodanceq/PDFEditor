@@ -32,8 +32,6 @@ struct PDFFile: Identifiable, Hashable {
 			  let fileSize = attributes[.size] as? UInt64 else {
 			return 0.0
 		}
-		
-		// Конвертируем байты в мегабайты
 		return Double(fileSize) / (1024 * 1024)
 	}
 }

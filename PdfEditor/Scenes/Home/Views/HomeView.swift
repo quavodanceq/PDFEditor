@@ -96,9 +96,6 @@ struct HomeView: View {
 					} else {
 						ForEach(viewModel.state.documents) { document in
 							DocumentListItem(document: document)
-								.onTapGesture {
-									router.navigate(to: .documentDetail(document: document))
-								}
 								.swipeActions(edge: .trailing) {
 									Button("Delete", role: .destructive) {
 										viewModel.deleteDocument(document)
@@ -129,14 +126,6 @@ struct HomeView: View {
 					
 				} label: {
 					Image(systemName: "magnifyingglass")
-				}
-			}
-			
-			ToolbarItem(placement: .automatic) {
-				Button {
-					
-				} label: {
-					Image(systemName: "ellipsis")
 				}
 			}
 		}

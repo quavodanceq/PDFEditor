@@ -1,5 +1,5 @@
 //
-//  Untitled.swift
+//  RecentFileCard.swift
 //  PdfEditor
 //
 //  Created by Куат Оралбеков on 12.07.2025.
@@ -7,14 +7,16 @@
 import SwiftUI
 
 struct RecentFileCard: View {
+	
 	let document: PDFFile
-	@State private var thumbnailImage: UIImage?
+	
+	@EnvironmentObject var thumbnailCache: ThumbnailCacheService
 	
 	var body: some View {
 		VStack(alignment: .leading) {
 			Group {
-				if let thumbnailImage = thumbnailImage {
-					Image(uiImage: thumbnailImage)
+				if let thumbnail = thumbnailCache.thumbnail(for: document) {
+					Image(uiImage: thumbnail)
 						.resizable()
 						.scaledToFill()
 						.frame(width: 160, height: 200)
@@ -25,11 +27,8 @@ struct RecentFileCard: View {
 						.fill(Color.gray.opacity(0.2))
 						.frame(width: 160, height: 200)
 						.overlay(
-							Image(systemName: "doc.text.fill")
-								.resizable()
-								.scaledToFit()
-								.frame(width: 60)
-								.foregroundColor(.gray)
+							ProgressView()
+								.scaleEffect(1.2)
 						)
 						.cornerRadius(8)
 				}
@@ -44,13 +43,5 @@ struct RecentFileCard: View {
 				.foregroundColor(.gray)
 		}
 		.frame(width: 160)
-		.onAppear {
-			loadThumbnail()
-		}
-	}
-	
-	private func loadThumbnail() {
-		let pdfService = PDFService()
-		thumbnailImage = pdfService.loadThumbnail(for: document)
 	}
 }
